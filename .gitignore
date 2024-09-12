@@ -140,3 +140,5 @@ android/app/google-services.json
 ios/Flutter/GoogleService-Info.plist
 /ios/Runner/GoogleService-Info.plist
 /ios/Runner/GoogleService-Info.plist
+*.lock
+*.lock
