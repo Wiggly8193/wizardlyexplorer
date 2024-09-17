@@ -182,7 +182,9 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Center(
                             child: LoadingWidget(
-                                loadingMessage: "Casting spells..."),
+                              loadingMessage: "Casting spells...",
+                              type: "spells",
+                            ),
                           ),
                         );
                       }
@@ -212,7 +214,10 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
             );
           },
           loading: () => const Center(
-            child: LoadingWidget(loadingMessage: "Casting spells..."),
+            child: LoadingWidget(
+              loadingMessage: "Casting spells...",
+              type: "spells",
+            ),
           ),
           error: (err, stack) => Center(
             child: Text('Error: $err'),

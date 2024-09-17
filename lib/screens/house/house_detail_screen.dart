@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wizardly_explorer/utils/color_utils.dart';
@@ -6,6 +7,7 @@ import 'package:wizardly_explorer/utils/custom_background.dart';
 
 import '../../models/houses/houses.dart';
 import '../../providers/house_provider/house_provider.dart';
+import '../../widgets/loading_widget.dart';
 
 class HouseDetailScreen extends ConsumerWidget {
   final String houseId;
@@ -20,11 +22,16 @@ class HouseDetailScreen extends ConsumerWidget {
       body: houseAsyncValue.when(
         data: (house) => Stack(
           children: [
-            const CustomBackground(), // Add background with subtle particles
+            const CustomBackground(),
             _buildHouseDetails(house, context),
           ],
         ),
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => const Center(
+          child: LoadingWidget(
+            loadingMessage: 'Sorting the Houses...',
+            type: "house",
+          ),
+        ),
         error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
     );
@@ -38,7 +45,6 @@ class HouseDetailScreen extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Crest and House Name
           Stack(
             children: [
               Container(
@@ -65,7 +71,6 @@ class HouseDetailScreen extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 20),
-          // House Details Section
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -78,13 +83,10 @@ class HouseDetailScreen extends ConsumerWidget {
                 _buildDetailRow('Ghost', house.ghost),
                 _buildDetailRow('Common Room', house.commonRoom),
                 const SizedBox(height: 20),
-                // Founder Quote
                 _buildFounderQuote(house.founder),
                 const SizedBox(height: 20),
-                // Heads of House Carousel
                 _buildHouseHeadsCarousel(house, primaryColor),
                 const SizedBox(height: 20),
-                // House Traits
                 _buildTraits(house.traits, primaryColor),
                 const SizedBox(height: 30),
               ],
@@ -95,7 +97,6 @@ class HouseDetailScreen extends ConsumerWidget {
     );
   }
 
-  // Build House Crest Widget
   Widget _buildHouseCrest(String houseName) {
     return Container(
       height: 150,
@@ -118,12 +119,10 @@ class HouseDetailScreen extends ConsumerWidget {
     );
   }
 
-  // Founder Quote Section
   Widget _buildFounderQuote(String founder) {
     const founderQuotes = {
       'Godric Gryffindor':
           '"Daring, nerve, and chivalry set Gryffindors apart!"',
-      // Add other founders' quotes here
     };
 
     return Center(
@@ -139,7 +138,6 @@ class HouseDetailScreen extends ConsumerWidget {
     );
   }
 
-  // Section Title
   Widget _buildSectionTitle(String title, Color color) {
     return Text(
       title,
@@ -191,7 +189,6 @@ class HouseDetailScreen extends ConsumerWidget {
     );
   }
 
-  // Build Head Card
   Widget _buildHeadCard(Head head) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -205,7 +202,11 @@ class HouseDetailScreen extends ConsumerWidget {
             const SizedBox(height: 10),
             Text(
               '${head.firstName} ${head.lastName}',
-              style: const TextStyle(fontSize: 16, color: Colors.white),
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -213,7 +214,6 @@ class HouseDetailScreen extends ConsumerWidget {
     );
   }
 
-  // Build House Traits
   Widget _buildTraits(List<Trait> traits, Color primaryColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,9 +226,13 @@ class HouseDetailScreen extends ConsumerWidget {
             return Chip(
               label: Text(
                 trait.name,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 15.sp,
+                ),
               ),
-              backgroundColor: Colors.amber.withOpacity(0.7),
+              backgroundColor: Colors.amber.withOpacity(0.9),
             );
           }).toList(),
         ),

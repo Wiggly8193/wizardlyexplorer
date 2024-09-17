@@ -5,6 +5,7 @@ import 'package:wizardly_explorer/screens/elixirs/elixirs.dart';
 
 import '../../providers/house_provider/house_provider.dart';
 import '../../widgets/house_card.dart';
+import '../../widgets/loading_widget.dart';
 import '../spells/spells_screen.dart';
 import 'house_detail_screen.dart';
 
@@ -147,7 +148,10 @@ class HousesScreen extends ConsumerWidget {
               );
             },
             loading: () => const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingWidget(
+                loadingMessage: 'Sorting the Houses',
+                type: "house",
+              ),
             ),
             error: (error, stackTrace) => Center(child: Text('Error: $error')),
           ),

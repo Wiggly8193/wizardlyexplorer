@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wizardly_explorer/widgets/loading_widget.dart';
 
 import '../../providers/elixir_provider/elixir_provider.dart';
 import '../../utils/custom_background.dart';
@@ -103,7 +104,12 @@ class _ElixirDetailScreenState extends ConsumerState<ElixirDetailScreen> {
                 ),
               );
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
+            loading: () => const Center(
+              child: LoadingWidget(
+                loadingMessage: 'Brewing Elixirs',
+                type: "elixirs",
+              ),
+            ),
             error: (err, stack) => Center(child: Text('Error: $err')),
           ),
         ],
