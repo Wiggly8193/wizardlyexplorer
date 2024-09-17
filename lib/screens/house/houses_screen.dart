@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wizardly_explorer/screens/spells_screen.dart';
+import 'package:wizardly_explorer/screens/elixirs/elixirs.dart';
 
 import '../../providers/house_provider/house_provider.dart';
 import '../../widgets/house_card.dart';
+import '../spells/spells_screen.dart';
+import 'house_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,8 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
     const Center(
       child: HousesScreen(),
     ),
-    const Center(child: Text('Elixirs')),
-    const Center(child: SpellsScreen()),
+    const Center(
+      child: ElixirScreen(),
+    ),
+    const Center(
+      child: SpellsScreen(),
+    ),
   ];
 
   @override
@@ -48,16 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(
             Icons.keyboard_arrow_left,
             size: 30,
-            color: Colors.amberAccent, // Use matching color for consistency
+            color: Colors.amberAccent,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor:
-            const Color.fromRGBO(41, 41, 41, 1), // Dark mystical background
-        elevation: 5, // Adds a subtle shadow for depth
-        shadowColor: Colors.black54, // Shadow color for the app bar
+        backgroundColor: const Color.fromRGBO(41, 41, 41, 1),
+        elevation: 5,
+        shadowColor: Colors.black54,
       ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -72,15 +77,21 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.ac_unit_rounded),
+            icon: ImageIcon(
+              AssetImage('assets/icons/houses_icon.png'),
+            ),
             label: 'Houses',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.ac_unit_rounded),
+            icon: ImageIcon(
+              AssetImage('assets/icons/elixirs_icon.png'),
+            ),
             label: 'Elixirs',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.ac_unit_rounded),
+            icon: ImageIcon(
+              AssetImage('assets/icons/spell_icon.png'),
+            ),
             label: 'Spells',
           ),
         ],
@@ -99,7 +110,6 @@ class HousesScreen extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image and overlay
           Positioned.fill(
             child: Image.asset(
               'assets/images/hogwarts_background.jpeg',
@@ -111,7 +121,6 @@ class HousesScreen extends ConsumerWidget {
               color: Colors.black.withOpacity(0.6),
             ),
           ),
-          // Handle the different states of the provider
           housesAsyncValue.when(
             data: (houses) {
               return ListView.builder(
@@ -120,12 +129,14 @@ class HousesScreen extends ConsumerWidget {
                   final house = houses[index];
                   return GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (_) => HouseDetailScreen(house: house),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => HouseDetailScreen(
+                            houseId: house.id,
+                          ),
+                        ),
+                      );
                     },
                     child: Hero(
                       tag: house.name,
@@ -136,9 +147,9 @@ class HousesScreen extends ConsumerWidget {
               );
             },
             loading: () => const Center(
-                child: CircularProgressIndicator()), // Show loading indicator
-            error: (error, stackTrace) =>
-                Center(child: Text('Error: $error')), // Handle error state
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stackTrace) => Center(child: Text('Error: $error')),
           ),
         ],
       ),

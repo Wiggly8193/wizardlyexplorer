@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:wizardly_explorer/screens/spells_details_screen.dart';
+import 'package:wizardly_explorer/screens/spells/spells_details_screen.dart';
 import 'package:wizardly_explorer/utils/spell_constants.dart';
 
-import '../models/spell/spell.dart';
-import '../providers/spell_provider/spell_provider.dart';
-import '../utils/wizard_slide_transition.dart';
-import '../widgets/loading_widget.dart';
-import '../widgets/spell_card.dart';
+import '../../models/spell/spell.dart';
+import '../../providers/spell_provider/spell_provider.dart';
+import '../../utils/wizard_slide_transition.dart';
+import '../../widgets/loading_widget.dart';
+import '../../widgets/spell_card.dart';
 
 class SpellsScreen extends ConsumerStatefulWidget {
   const SpellsScreen({super.key});
@@ -234,7 +234,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
+          builder: (BuildContext context, StateSetter setStateBottomSheet) {
             return Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -253,7 +253,10 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                   DropdownButton<String>(
                     dropdownColor: Colors.black,
                     value: selectedType,
-                    hint: const Text("Select Spell Type"),
+                    hint: const Text(
+                      "Select Spell Type",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: GoogleFonts.cinzel(
                       color: Colors.amberAccent,
                       fontSize: 16,
@@ -267,7 +270,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                                 ))
                         .toList(),
                     onChanged: (String? newValue) {
-                      setState(() {
+                      setStateBottomSheet(() {
                         selectedType = newValue;
                       });
                     },
@@ -279,7 +282,10 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                       fontSize: 16,
                     ),
                     value: selectedLight,
-                    hint: const Text("Select Light Color"),
+                    hint: const Text(
+                      "Select Light Color",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     isExpanded: true,
                     items: SpellConstants()
                         .spellLights
@@ -290,7 +296,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                                 ))
                         .toList(),
                     onChanged: (String? newValue) {
-                      setState(() {
+                      setStateBottomSheet(() {
                         selectedLight = newValue;
                       });
                     },
@@ -306,7 +312,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                     ),
                     value: selectedVerbal ?? false,
                     onChanged: (bool value) {
-                      setState(() {
+                      setStateBottomSheet(() {
                         selectedVerbal = value;
                       });
                     },
@@ -324,6 +330,9 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                           Navigator.pop(context);
                           setState(() {
                             filteredSpells = _applyFilters(spells);
+                            currentMax = (filteredSpells.length < increment)
+                                ? filteredSpells.length
+                                : increment;
                           });
                         },
                         child: const Text("Apply Filters"),
@@ -335,10 +344,14 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                           setState(() {
+                            // Clear all filters
                             selectedType = null;
                             selectedLight = null;
                             selectedVerbal = null;
                             filteredSpells = spells;
+                            currentMax = (filteredSpells.length < increment)
+                                ? filteredSpells.length
+                                : increment;
                           });
                         },
                         child: const Text("Clear Filters"),

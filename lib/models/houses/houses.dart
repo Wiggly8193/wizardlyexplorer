@@ -1,8 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'head/head.dart';
-import 'trait/trait.dart';
-
 part 'houses.freezed.dart';
 part 'houses.g.dart';
 
@@ -22,4 +19,25 @@ class Houses with _$Houses {
   }) = _Houses;
 
   factory Houses.fromJson(Map<String, dynamic> json) => _$HousesFromJson(json);
+}
+
+@freezed
+class Trait with _$Trait {
+  const factory Trait({
+    required String id,
+    required String name,
+  }) = _Trait;
+
+  factory Trait.fromJson(Map<String, dynamic> json) => _$TraitFromJson(json);
+}
+
+@Freezed()
+class Head with _$Head {
+  const factory Head({
+    required String id,
+    required String firstName,
+    required String lastName,
+  }) = _Head;
+
+  factory Head.fromJson(Map<String, dynamic> json) => _$HeadFromJson(json);
 }

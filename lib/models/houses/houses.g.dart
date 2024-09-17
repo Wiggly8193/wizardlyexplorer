@@ -36,3 +36,27 @@ Map<String, dynamic> _$$HousesImplToJson(_$HousesImpl instance) =>
       'heads': instance.heads,
       'traits': instance.traits,
     };
+
+_$TraitImpl _$$TraitImplFromJson(Map<String, dynamic> json) => _$TraitImpl(
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+
+Map<String, dynamic> _$$TraitImplToJson(_$TraitImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+    };
+
+_$HeadImpl _$$HeadImplFromJson(Map<String, dynamic> json) => _$HeadImpl(
+      id: json['id'] as String,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
+    );
+
+Map<String, dynamic> _$$HeadImplToJson(_$HeadImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+    };
