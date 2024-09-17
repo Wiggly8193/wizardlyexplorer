@@ -19,6 +19,7 @@ class HouseDetailScreen extends ConsumerWidget {
     final houseAsyncValue = ref.watch(getHousesByIdProvider(houseId));
 
     return Scaffold(
+      backgroundColor: const Color(0xFF1A1A2E),
       body: houseAsyncValue.when(
         data: (house) => Stack(
           children: [
@@ -64,7 +65,11 @@ class HouseDetailScreen extends ConsumerWidget {
                 top: 40,
                 left: 10,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Colors.white,
+                    size: 40,
+                  ),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
@@ -103,8 +108,10 @@ class HouseDetailScreen extends ConsumerWidget {
       width: 150,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        image: const DecorationImage(
-          image: AssetImage('assets/images/hufflepuff_crest.jpeg'),
+        image: DecorationImage(
+          image: AssetImage(
+            _getHouseImage(houseName),
+          ),
           fit: BoxFit.cover,
         ),
         boxShadow: [
@@ -238,5 +245,20 @@ class HouseDetailScreen extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  String _getHouseImage(String houseName) {
+    switch (houseName) {
+      case 'Gryffindor':
+        return 'assets/images/gryffindor.jpeg';
+      case 'Slytherin':
+        return 'assets/images/slytherin.jpeg';
+      case 'Hufflepuff':
+        return 'assets/images/hufflepuff.jpeg';
+      case 'Ravenclaw':
+        return 'assets/images/ravenclaw.jpeg';
+      default:
+        return 'assets/images/gryffindor.png'; // Default to Gryffindor
+    }
   }
 }

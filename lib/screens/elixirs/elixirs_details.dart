@@ -27,17 +27,18 @@ class _ElixirDetailScreenState extends ConsumerState<ElixirDetailScreen> {
   }
 
   void _checkFavoriteStatus() async {
-    final isFavorite = await _favoritesManager.isFavorite(widget.elixirId);
+    final isFavorite =
+        await _favoritesManager.isFavoriteElixir(widget.elixirId);
     setState(() {
-      _isFavorite = isFavorite!;
+      _isFavorite = isFavorite;
     });
   }
 
   void _toggleFavorite() async {
     if (_isFavorite) {
-      await _favoritesManager.removeFavorite(widget.elixirId);
+      await _favoritesManager.removeFavoriteElixir(widget.elixirId);
     } else {
-      await _favoritesManager.addFavorite(widget.elixirId);
+      await _favoritesManager.addFavoriteElixir(widget.elixirId);
     }
     setState(() {
       _isFavorite = !_isFavorite;

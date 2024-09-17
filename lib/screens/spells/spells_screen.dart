@@ -9,6 +9,7 @@ import '../../providers/spell_provider/spell_provider.dart';
 import '../../utils/wizard_slide_transition.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/spell_card.dart';
+import 'booked_marked_spell.dart';
 
 class SpellsScreen extends ConsumerStatefulWidget {
   const SpellsScreen({super.key});
@@ -54,7 +55,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(31, 31, 31, 1), // Dark background
+        backgroundColor: const Color(0xFF1A1A2E),
         body: spellsAsyncValue.when(
           data: (spells) {
             if (filteredSpells.isEmpty && searchQuery.isEmpty) {
@@ -197,7 +198,9 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
                             Navigator.push(
                               context,
                               WizardSlideTransition(
-                                page: SpellDetailScreen(spell: spell),
+                                page: SpellDetailScreen(
+                                  spellId: spell.id,
+                                ),
                               ),
                             );
                           },
@@ -222,6 +225,18 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
           error: (err, stack) => Center(
             child: Text('Error: $err'),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BookmarkedSpellScreen(),
+              ),
+            );
+          },
+          backgroundColor: Colors.amberAccent,
+          child: const Icon(Icons.bookmark, color: Colors.white),
         ),
       ),
     );

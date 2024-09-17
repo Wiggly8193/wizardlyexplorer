@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../providers/elixir_provider/elixir_provider.dart';
 import '../../utils/favorite_manager.dart';
+import '../../utils/wizard_slide_transition.dart';
 import 'elixirs_details.dart';
 
 class BookmarkedElixirsScreen extends ConsumerStatefulWidget {
@@ -26,7 +27,7 @@ class BookmarkedElixirsScreenState
 
   // Load bookmarked elixir IDs from SharedPreferences
   void _loadBookmarkedElixirs() async {
-    final ids = await _favoritesManager.getFavorites();
+    final ids = await _favoritesManager.getFavoriteElixirs();
     setState(() {
       _bookmarkedElixirIds = ids;
     });
@@ -42,6 +43,16 @@ class BookmarkedElixirsScreenState
           style: TextStyle(color: Colors.amberAccent),
         ),
         backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.keyboard_arrow_left,
+            size: 30,
+            color: Colors.amberAccent,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: _bookmarkedElixirIds.isEmpty
           ? const Center(
@@ -63,9 +74,8 @@ class BookmarkedElixirsScreenState
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ElixirDetailScreen(elixirId: elixir.id),
+                          WizardSlideTransition(
+                            page: ElixirDetailScreen(elixirId: elixir.id),
                           ),
                         );
                       },

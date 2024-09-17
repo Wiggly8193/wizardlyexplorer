@@ -1,32 +1,66 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavoritesManager {
-  static const String _favoritesKey = 'favorites';
+  static const String _favoritesElixirsKey = 'favorites_elixirs';
+  static const String _favoritesSpellsKey = 'favorites_spells';
 
-  Future<void> addFavorite(String elixirId) async {
+  Future<void> addFavoriteElixir(String elixirId) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> favorites = prefs.getStringList(_favoritesKey) ?? [];
+    final List<String> favorites =
+        prefs.getStringList(_favoritesElixirsKey) ?? [];
     if (!favorites.contains(elixirId)) {
       favorites.add(elixirId);
-      await prefs.setStringList(_favoritesKey, favorites);
+      await prefs.setStringList(_favoritesElixirsKey, favorites);
     }
   }
 
-  Future<void> removeFavorite(String elixirId) async {
+  Future<void> removeFavoriteElixir(String elixirId) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> favorites = prefs.getStringList(_favoritesKey) ?? [];
+    final List<String> favorites =
+        prefs.getStringList(_favoritesElixirsKey) ?? [];
     favorites.remove(elixirId);
-    await prefs.setStringList(_favoritesKey, favorites);
+    await prefs.setStringList(_favoritesElixirsKey, favorites);
   }
 
-  Future<List<String>> getFavorites() async {
+  Future<List<String>> getFavoriteElixirs() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getStringList(_favoritesKey) ?? [];
+    return prefs.getStringList(_favoritesElixirsKey) ?? [];
   }
 
-  Future<bool?> isFavorite(String elixirId) async {
+  Future<bool> isFavoriteElixir(String elixirId) async {
     final prefs = await SharedPreferences.getInstance();
-    final List<String> favorites = prefs.getStringList(_favoritesKey) ?? [];
+    final List<String> favorites =
+        prefs.getStringList(_favoritesElixirsKey) ?? [];
     return favorites.contains(elixirId);
+  }
+
+  Future<void> addFavoriteSpell(String spellId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> favorites =
+        prefs.getStringList(_favoritesSpellsKey) ?? [];
+    if (!favorites.contains(spellId)) {
+      favorites.add(spellId);
+      await prefs.setStringList(_favoritesSpellsKey, favorites);
+    }
+  }
+
+  Future<void> removeFavoriteSpell(String spellId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> favorites =
+        prefs.getStringList(_favoritesSpellsKey) ?? [];
+    favorites.remove(spellId);
+    await prefs.setStringList(_favoritesSpellsKey, favorites);
+  }
+
+  Future<List<String>> getFavoriteSpells() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_favoritesSpellsKey) ?? [];
+  }
+
+  Future<bool> isFavoriteSpell(String spellId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> favorites =
+        prefs.getStringList(_favoritesSpellsKey) ?? [];
+    return favorites.contains(spellId);
   }
 }

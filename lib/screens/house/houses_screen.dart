@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wizardly_explorer/screens/elixirs/elixirs.dart';
 
 import '../../providers/house_provider/house_provider.dart';
+import '../../utils/wizard_slide_transition.dart';
 import '../../widgets/house_card.dart';
 import '../../widgets/loading_widget.dart';
 import '../spells/spells_screen.dart';
@@ -107,55 +108,40 @@ class HousesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final housesAsyncValue = ref.watch(getHousesProvider);
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/hogwarts_background.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned.fill(
-            child: Container(
-              color: Colors.black.withOpacity(0.6),
-            ),
-          ),
-          housesAsyncValue.when(
-            data: (houses) {
-              return ListView.builder(
-                itemCount: houses.length,
-                itemBuilder: (context, index) {
-                  final house = houses[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => HouseDetailScreen(
-                            houseId: house.id,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Hero(
-                      tag: house.name,
-                      child: HouseCard(house: house),
+      backgroundColor: const Color(0xFF1A1A2E),
+      body: housesAsyncValue.when(
+        data: (houses) {
+          return ListView.builder(
+            itemCount: houses.length,
+            itemBuilder: (context, index) {
+              final house = houses[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    WizardSlideTransition(
+                      page: HouseDetailScreen(
+                        houseId: house.id,
+                      ),
                     ),
                   );
                 },
+                child: Hero(
+                  tag: house.name,
+                  child: HouseCard(house: house),
+                ),
               );
             },
-            loading: () => const Center(
-              child: LoadingWidget(
-                loadingMessage: 'Sorting the Houses',
-                type: "house",
-              ),
-            ),
-            error: (error, stackTrace) => Center(child: Text('Error: $error')),
+          );
+        },
+        loading: () => const Center(
+          child: LoadingWidget(
+            loadingMessage: 'Sorting the Houses',
+            type: "house",
           ),
-        ],
+        ),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
     );
   }

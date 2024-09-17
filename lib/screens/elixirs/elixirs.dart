@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wizardly_explorer/utils/wizard_slide_transition.dart';
 
 import '../../models/elixirs/elixirs.dart';
 import '../../providers/elixir_provider/elixir_provider.dart';
@@ -18,7 +19,6 @@ class ElixirScreen extends ConsumerStatefulWidget {
 
 class ElixirScreenState extends ConsumerState<ElixirScreen> {
   String searchQuery = "";
-  String selectedDifficulty = "All";
   String selectedSortOption = "Name";
 
   List<Elixirs> _filterAndSortElixirs(List<Elixirs> elixirs) {
@@ -38,6 +38,49 @@ class ElixirScreenState extends ConsumerState<ElixirScreen> {
     return filteredElixirs;
   }
 
+  void _openSortOptions() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF0F0F1A),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading:
+                    const Icon(Icons.sort_by_alpha, color: Colors.amberAccent),
+                title:
+                    const Text('Name', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  setState(() {
+                    selectedSortOption = 'Name';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.bar_chart, color: Colors.amberAccent),
+                title: const Text('Difficulty',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  setState(() {
+                    selectedSortOption = 'Difficulty';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final elixirsAsyncValue = ref.watch(getElixirsProvider);
@@ -48,55 +91,51 @@ class ElixirScreenState extends ConsumerState<ElixirScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintText: 'Search elixirs...',
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18.sp,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Search elixirs...',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 18.sp,
+                      ),
+                      prefixIcon:
+                          const Icon(Icons.search, color: Colors.amberAccent),
+                      filled: true,
+                      fillColor: const Color(0xFF0F0F1A),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
                 ),
-                prefixIcon: const Icon(Icons.search, color: Colors.amberAccent),
-                filled: true,
-                fillColor: const Color(0xFF0F0F1A),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
+                const SizedBox(width: 16),
+                GestureDetector(
+                  onTap: _openSortOptions,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.sort, color: Colors.white),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Sort',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: DropdownButtonFormField<String>(
-              value: selectedSortOption,
-              dropdownColor: const Color(0xFF1A1A2E),
-              icon: const Icon(Icons.arrow_downward, color: Colors.amberAccent),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: const Color(0xFF0F0F1A),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              items: <String>['Name', 'Difficulty'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child:
-                      Text(value, style: const TextStyle(color: Colors.white)),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedSortOption = value!;
-                });
-              },
+              ],
             ),
           ),
           Expanded(
@@ -119,9 +158,8 @@ class ElixirScreenState extends ConsumerState<ElixirScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ElixirDetailScreen(elixirId: elixir.id),
+                          WizardSlideTransition(
+                            page: ElixirDetailScreen(elixirId: elixir.id),
                           ),
                         );
                       },

@@ -11,22 +11,10 @@ class LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AssetImage _getImageIcon() {
-      switch (type) {
-        case 'house':
-          return const AssetImage('assets/icons/houses_icon.png');
-        case 'spells':
-          return const AssetImage('assets/icons/spell_icon.png');
-        case 'elixirs':
-          return const AssetImage('assets/icons/elixirs_icon.png');
-        default:
-          return const AssetImage('assets/icons/default_icon.png');
-      }
-    }
-
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedBuilder(
             animation: const AlwaysStoppedAnimation(45 / 360),
@@ -35,7 +23,7 @@ class LoadingWidget extends StatelessWidget {
               child: ImageIcon(
                 _getImageIcon(),
                 size: 50,
-                color: const Color.fromRGBO(204, 192, 161, 1),
+                color: Colors.yellow,
               ),
             ),
           ),
@@ -46,12 +34,12 @@ class LoadingWidget extends StatelessWidget {
               Text(
                 "$loadingMessage  ",
                 style: GoogleFonts.cinzel(
-                  fontSize: 20,
-                  color: Colors.brown[700],
-                ),
+                    fontSize: 20,
+                    color: Colors.yellow,
+                    fontWeight: FontWeight.bold),
               ),
               LoadingAnimationWidget.prograssiveDots(
-                color: const Color.fromRGBO(204, 192, 161, 1),
+                color: Colors.white,
                 size: 50,
               ),
             ],
@@ -59,5 +47,18 @@ class LoadingWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  AssetImage _getImageIcon() {
+    switch (type) {
+      case 'house':
+        return const AssetImage('assets/icons/houses_icon.png');
+      case 'spells':
+        return const AssetImage('assets/icons/spell_icon.png');
+      case 'elixirs':
+        return const AssetImage('assets/icons/elixirs_icon.png');
+      default:
+        return const AssetImage('assets/icons/default_icon.png');
+    }
   }
 }

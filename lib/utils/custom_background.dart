@@ -32,7 +32,6 @@ class _CustomBackgroundState extends State<CustomBackground>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Gradient Background
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -46,7 +45,6 @@ class _CustomBackgroundState extends State<CustomBackground>
             ),
           ),
         ),
-        // Particle effect
         AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
@@ -69,19 +67,16 @@ class _ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (size.width <= 0 || size.height <= 0) {
-      // If size is invalid, don't paint anything
       return;
     }
 
     final Paint paint = Paint()..color = Colors.amberAccent.withOpacity(0.5);
 
     for (int i = 0; i < 50; i++) {
-      // Ensure particles stay within valid bounds
       final double dx = random.nextDouble() * size.width;
       final double dy =
           (random.nextDouble() * size.height * progress) % size.height;
 
-      // Check for NaN or invalid offsets
       if (dx.isNaN || dy.isNaN) continue;
 
       canvas.drawCircle(Offset(dx, dy), random.nextDouble() * 3 + 1, paint);
