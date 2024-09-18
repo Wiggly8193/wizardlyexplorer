@@ -44,6 +44,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   shared_preferences: ^2.3.2
   shimmer: ^3.0.0
+  device_preview: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +62,7 @@ dev_dependencies:
   riverpod_lint: ^2.3.13
   freezed: ^2.5.7
   json_serializable: ^6.8.0
+  mocktail: ^1.0.4
 
 
 # For information on the generic Dart part of this file, see the

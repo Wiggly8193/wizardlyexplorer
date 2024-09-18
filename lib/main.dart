@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,9 +6,14 @@ import 'package:wizardly_explorer/screens/splash.dart';
 import 'package:wizardly_explorer/theme/theme_data.dart';
 
 void main() {
-  runApp(const ProviderScope(
-    child: MyApp(),
-  ));
+  runApp(
+    ProviderScope(
+      child: DevicePreview(
+        enabled: true, // Set to false for production builds
+        builder: (context) => const MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
@@ -23,6 +29,10 @@ class MyApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (_, __) {
         return MaterialApp(
+          useInheritedMediaQuery:
+              true, // To respect the simulated device properties
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: themeMode,

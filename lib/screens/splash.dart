@@ -24,12 +24,13 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            'assets/images/splash.jpeg',
-            width: 1.sw,
-            height: 1.sh,
-            fit: BoxFit.fill,
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/splash.jpeg',
+              fit: BoxFit.cover,
+            ),
           ),
+
           Positioned(
             top: 100.h,
             left: 0,
@@ -53,6 +54,8 @@ class _SplashState extends State<Splash> {
               ),
             ),
           ),
+
+          // Continue Button
           Positioned(
             bottom: 45.h,
             left: 50.w,

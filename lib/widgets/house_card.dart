@@ -66,7 +66,6 @@ class HouseCard extends StatelessWidget {
                     softWrap: true,
                   ),
                   const SizedBox(height: 10),
-                  // Ensure traits text wraps within the available space
                   Expanded(
                     child: Text(
                       'Traits: ${house.traits.map((trait) => trait.name).join(', ')}',
@@ -74,9 +73,8 @@ class HouseCard extends StatelessWidget {
                         fontSize: 16,
                         color: Colors.white70,
                       ),
-                      softWrap: true, // Ensures text wraps properly
-                      overflow: TextOverflow
-                          .visible, // Makes sure the text doesn't overflow
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
                     ),
                   ),
                 ],

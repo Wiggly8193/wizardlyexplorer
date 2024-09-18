@@ -110,17 +110,17 @@ class _SpellDetailScreenState extends ConsumerState<SpellDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
               Text(
                 "✨ ${spell.name} ✨",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.cinzelDecorative(
-                  fontSize: 38.sp,
+                  fontSize: 35.sp,
                   color: Colors.amberAccent,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 50.h),
+              SizedBox(height: 40.h),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
