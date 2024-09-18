@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wizardly_explorer/models/spell/spell.dart';
 import 'package:wizardly_explorer/services/spells_api_service.dart';
 
-part 'spell_provider.g.dart'; // This will generate the necessary code
+part 'spell_provider.g.dart';
 
 @riverpod
 Future<List<Spell>> getSpells(GetSpellsRef ref) async {

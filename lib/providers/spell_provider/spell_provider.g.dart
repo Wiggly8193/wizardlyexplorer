@@ -22,7 +22,6 @@ final getSpellsProvider = AutoDisposeFutureProvider<List<Spell>>.internal(
 typedef GetSpellsRef = AutoDisposeFutureProviderRef<List<Spell>>;
 String _$getSpellByIdHash() => r'624db88e54cb13bc761620173852dcea2ee9469e';
 
-/// Copied from Dart SDK
 class _SystemHash {
   _SystemHash._();
 

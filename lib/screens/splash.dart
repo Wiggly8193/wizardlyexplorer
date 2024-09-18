@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wizardly_explorer/screens/house/houses_screen.dart';
 
 import '../utils/wizard_slide_transition.dart';
+import 'home_screen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
