@@ -9,7 +9,7 @@ void main() {
   runApp(
     ProviderScope(
       child: DevicePreview(
-        enabled: true, // Set to false for production builds
+        enabled: true,
         builder: (context) => const MyApp(),
       ),
     ),
@@ -29,8 +29,7 @@ class MyApp extends ConsumerWidget {
       splitScreenMode: true,
       builder: (_, __) {
         return MaterialApp(
-          useInheritedMediaQuery:
-              true, // To respect the simulated device properties
+          useInheritedMediaQuery: true,
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
           theme: lightTheme,

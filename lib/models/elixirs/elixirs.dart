@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../utils/enums.dart';
 
 part 'elixirs.freezed.dart';
-part 'elixirs.g.dart'; // For JSON serialization
+part 'elixirs.g.dart';
 
 @Freezed()
 class Elixirs with _$Elixirs {

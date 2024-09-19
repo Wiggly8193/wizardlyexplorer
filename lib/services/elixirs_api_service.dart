@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/elixirs/elixirs.dart';
 import '../utils/api_constants.dart';
+import '../utils/toast_handler.dart';
 
 class ElixirsApiService {
   Future<List<Elixirs>> fetchElixirs() async {
@@ -17,6 +18,7 @@ class ElixirsApiService {
         throw Exception('Failed to load elixirs');
       }
     } catch (exception) {
+      ToastHandler().showWizardError(exception.toString());
       throw Exception('Failed to fetch elixirs: ${exception.toString()}');
     }
   }
@@ -33,6 +35,7 @@ class ElixirsApiService {
         throw Exception('Failed to load elixir with id $elixirId');
       }
     } catch (exception) {
+      ToastHandler().showWizardError(exception.toString());
       throw Exception('Failed to fetch elixir: ${exception.toString()}');
     }
   }

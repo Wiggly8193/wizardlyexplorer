@@ -38,7 +38,7 @@ class _SpellsScreenState extends ConsumerState<SpellsScreen> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
+          _scrollController.position.maxScrollExtent - 100) {
         setState(() {
           if (currentMax < filteredSpells.length) {
             currentMax =

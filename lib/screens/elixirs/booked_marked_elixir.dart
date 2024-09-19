@@ -25,7 +25,6 @@ class BookmarkedElixirsScreenState
     _loadBookmarkedElixirs();
   }
 
-  // Load bookmarked elixir IDs from SharedPreferences
   void _loadBookmarkedElixirs() async {
     final ids = await _favoritesManager.getFavoriteElixirs();
     setState(() {
