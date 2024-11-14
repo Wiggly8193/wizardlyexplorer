@@ -9,7 +9,7 @@ void main() {
   runApp(
     ProviderScope(
       child: DevicePreview(
-        enabled: true,
+        enabled: false,
         builder: (context) => const MyApp(),
       ),
     ),
